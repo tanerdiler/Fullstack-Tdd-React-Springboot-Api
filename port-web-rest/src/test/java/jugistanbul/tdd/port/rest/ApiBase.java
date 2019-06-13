@@ -42,6 +42,9 @@ public class ApiBase {
         var agent1 = PurchasingAgent.aNew().firstname("john").lastname("doe").email("john_doe@gmail.com").get();
         var trx1 = agent1.buy(Product.aNew().name("USB Disc").price(Money.of(100d)).get()).withCode("TR123").get();
         var trx2 = agent1.buy(Product.aNew().name("FLash Disc").price(Money.of(200d)).get()).withCode("TR124").get();
+        trx1.setId(1);
+        trx2.setId(2);
+
 
         var request1 = new TransactionSaveRequest("john","doe","john.doe@gmail.com","USB Disc",20.0,"TR023");
         var response1 = new TransactionSaveResponse(1, TransactionState.APPROVED);

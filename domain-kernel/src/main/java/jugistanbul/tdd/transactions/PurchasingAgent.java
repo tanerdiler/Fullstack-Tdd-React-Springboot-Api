@@ -10,7 +10,7 @@ public class PurchasingAgent {
 
     private final String lastname;
 
-    private String email;
+    private final String email;
 
     private PurchasingAgent(String firstname, String lastname, String email) {
 

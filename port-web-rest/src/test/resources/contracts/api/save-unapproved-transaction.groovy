@@ -4,7 +4,7 @@ import org.springframework.cloud.contract.spec.Contract
 
 Contract.make {
     description("""
-Save transaction and sign as unapproved that makes total to be exceed the limit
+Save transaction and sign as unapproved because of it makes total exceed the limit
 
 ```
 given:
@@ -12,7 +12,7 @@ given:
 when:
     saved 
 then:
-	we'll return information that has unapproved state info and id
+	we'll return information with unapproved state and id
 ```
 
 """)

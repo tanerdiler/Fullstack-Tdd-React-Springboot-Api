@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 public class TransactionSaveRequest {
@@ -16,5 +15,15 @@ public class TransactionSaveRequest {
     private String email;
     private String productName;
     private Double price;
+
+    public TransactionSaveRequest(String firstname, String lastname, String email, String productName, Double price, String transactionCode) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.productName = productName;
+        this.price = price;
+        this.transactionCode = transactionCode;
+    }
+
     private String transactionCode;
 }

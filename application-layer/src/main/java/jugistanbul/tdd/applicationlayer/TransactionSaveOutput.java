@@ -1,7 +1,9 @@
 package jugistanbul.tdd.applicationlayer;
 
 import jugistanbul.tdd.transactions.TransactionState;
+import lombok.Data;
 
+@Data
 public class TransactionSaveOutput {
 
     private Integer transactionId;
@@ -14,11 +16,4 @@ public class TransactionSaveOutput {
         this.state = state;
     }
 
-    public TransactionState getState() {
-        return state;
-    }
-
-    public Integer getTransactionId() {
-        return transactionId;
-    }
 }

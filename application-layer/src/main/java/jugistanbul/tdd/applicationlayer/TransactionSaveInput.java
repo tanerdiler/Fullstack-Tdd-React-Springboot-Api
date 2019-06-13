@@ -1,5 +1,13 @@
 package jugistanbul.tdd.applicationlayer;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+import java.util.Objects;
+
+@Data
+@ToString
 public class TransactionSaveInput {
 
     private String firstname;
@@ -27,52 +35,22 @@ public class TransactionSaveInput {
         this.productName = productName;
     }
 
-    public void setFirstname(String firstname) {
-
-        this.firstname = firstname;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        TransactionSaveInput input = (TransactionSaveInput) o;
+        return Double.compare(input.productPrice, productPrice) == 0 && Objects.equals(firstname, input.firstname) && Objects.equals(lastname,
+                                                                                                                                     input.lastname)
+                && Objects.equals(email, input.email) && Objects.equals(transactionCode, input.transactionCode) && Objects.equals(productName,
+                                                                                                                                  input.productName);
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
+    @Override
+    public int hashCode() {
 
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setTransactionCode(String transactionCode) {
-        this.transactionCode = transactionCode;
-    }
-
-    public String getTransactionCode() {
-        return transactionCode;
-    }
-
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
-    }
-
-    public double getProductPrice() {
-        return productPrice;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public String getFirstname() {
-        return firstname;
+        return Objects.hash(firstname, lastname, email, transactionCode, productPrice, productName);
     }
 }
