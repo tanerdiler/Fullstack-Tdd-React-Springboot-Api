@@ -5,7 +5,7 @@ Etkinlik boyunca deyineceğimiz konular:
 1. JUnit 5
 2. Test Driven Design
 3. Domain Driven Design
-4. Exhagonal Architecture
+4. Hexagonal Architecture
 5. Spring Cloud Contract
 6. ReactJS
 
