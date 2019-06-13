@@ -11,4 +11,6 @@ Etkinlik boyunca deyineceğimiz konular:
 
 Eğitmenler
 
-Taner Diler: Kocaeli Üniversitesi Bilgisayar Müh. Bölümü'nden 2003 yılında mezun olmuştur. 2002'den itibaren bir çok sektör ve pozisyonda görev alıp hala aktif olarak kod yazmaktadır. Eğitmen ve paylaşımcı kişiliği nedeni ile JUG Istanbul ve DDD Istanbul gruplarında aktif rol almaktadır. Şu an Emlakjet firmasında Teknik Lider olarak görev yapmakta.
+Taner Diler: Kocaeli Üniversitesi Bilgisayar Müh. Bölümü'nden 2003 yılında mezun oldu. 2002'den itibaren bir çok sektör ve pozisyonda görev alıp hala aktif olarak kod yazmakta. Eğitmen ve paylaşımcı kişiliği nedeni ile JUG Istanbul ve DDD Istanbul gruplarında aktif rol almakta. Şu an Emlakjet firmasında Teknik Lider olarak görev yapmakta.
+
+Erdem Günay: Orta Doğu Teknik Üniversitesi Bilgisayar mühendisliğinden mezun oldu. Okul yıllarında başladığı iş hayatına 4 sene Amsterdam'da devam etti. 2005 yılından beri Turkcell'de çalışıyor. Doğayı ve ağaç dikmeyi çok seviyor. Sualtı dalışı ve fotoğrafçılığı yapıyor.
