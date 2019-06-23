@@ -4,28 +4,28 @@ import org.springframework.cloud.contract.spec.Contract
 
 Contract.make {
     description("""
-Return all transactions
+Return transactions by created specified purchasing agent
 
 ```
 given:
-	search criteria
+	purchasing agent info
 when:
     search 
 then:
-	we'll return all transactions ever saved
+	we'll return transactions by created specified purchasing agent
 ```
 
 """)
 
     request {
         method GET()
-        url "/transactions"
+        url "/transactions"xw
         headers {
             contentType applicationJson()
         }
         body("""
 			{
-				"agent": null
+				"agent": {"email":"john_doe@gmail.com","firstname":"john","lastname":"doe"}
 			}
 		"""
         )

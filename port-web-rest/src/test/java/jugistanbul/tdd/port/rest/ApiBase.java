@@ -43,7 +43,9 @@ public class ApiBase {
         var trx1 = agent1.buy(Product.aNew().name("USB Disc").price(Money.of(100d)).get()).withCode("TR123").get();
         var trx2 = agent1.buy(Product.aNew().name("FLash Disc").price(Money.of(200d)).get()).withCode("TR124").get();
         trx1.setId(1);
+        trx1.approve();
         trx2.setId(2);
+        trx2.unapprove();
 
 
         var request1 = new TransactionSaveRequest("john","doe","john.doe@gmail.com","USB Disc",20.0,"TR023");
