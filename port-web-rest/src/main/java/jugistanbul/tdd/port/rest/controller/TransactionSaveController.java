@@ -15,9 +15,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/transactions")
 @RequiredArgsConstructor
-public class TransactionSaveCommandController {
-
-    private final TransactionService service;
+public class TransactionSaveController {
 
     @PostMapping
     public TransactionSaveResponse save(@RequestBody @Valid TransactionSaveRequest request) {
