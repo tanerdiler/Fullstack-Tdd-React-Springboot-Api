@@ -4,18 +4,18 @@ import org.springframework.cloud.contract.spec.Contract
 
 Contract.make {
     description("""
-Save transaction and sign as unapproved because of it makes total exceed the limit
+				Save transaction and sign as unapproved because of it makes total exceed the limit
 
-```
-given:
-	transaction
-when:
-    saved 
-then:
-	we'll return information with unapproved state and id
-```
+				```
+				given:
+					transaction
+				when:
+				    saved 
+				then:
+					we'll return information with unapproved state and id
+				```
 
-""")
+				""")
     request {
         method POST()
         url "/transactions"
@@ -23,15 +23,15 @@ then:
             contentType applicationJson()
         }
         body("""
-			{
-				"firstname": "mary",
-				"lastname": "doe",
-				"email": "mary.doe@gmail.com",
-				"productName": "USB Disc",
-				"price": 100.0,
-				"transactionCode": "TR025"
-			}
-		"""
+							{
+								"firstname": "mary",
+								"lastname": "doe",
+								"email": "mary.doe@gmail.com",
+								"productName": "USB Disc",
+								"price": 100.0,
+								"transactionCode": "TR025"
+							}
+						"""
         )
     }
 
@@ -41,11 +41,11 @@ then:
             contentType applicationJson()
         }
         body("""
-			{
-				"id": 1,
-				"state": "UNAPPROVED",
-			}
-		"""
+							{
+								"id": 1,
+								"state": "UNAPPROVED",
+							}
+						"""
         )
     }
 }

@@ -2,6 +2,7 @@ package jugistanbul.tdd.port.rest.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -12,5 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionSearchResponse {
-    private Collection<AgentTransactions> agentTransactions = new ArrayList<>();
+	private Collection<TransactionResponse> transactions = new ArrayList<>();
 }

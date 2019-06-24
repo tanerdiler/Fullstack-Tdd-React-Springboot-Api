@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
@@ -39,13 +40,6 @@ public class ApiBase {
     public void setup() {
         RestAssured.baseURI = "http://localhost:" + this.port;
 
-        var agent1 = PurchasingAgent.aNew().firstname("john").lastname("doe").email("john_doe@gmail.com").get();
-        var trx1 = agent1.buy(Product.aNew().name("USB Disc").price(Money.of(100d)).get()).withCode("TR123").get();
-        var trx2 = agent1.buy(Product.aNew().name("FLash Disc").price(Money.of(200d)).get()).withCode("TR124").get();
-        trx1.setId(1);
-        trx1.approve();
-        trx2.setId(2);
-        trx2.unapprove();
 
 
         var request1 = new TransactionSaveRequest("john","doe","john.doe@gmail.com","USB Disc",20.0,"TR023");
@@ -57,15 +51,23 @@ public class ApiBase {
         Mockito.when(service.save(request2)).thenReturn(response2);
 
         var searchRequest = new TransactionSearchRequest();
-        searchRequest.setAgent(new AgentToSearch("john","doe","john.doe@gmail.com"));
-        var searchResponse = new TransactionSearchResponse();
-        Collection<AgentTransactions> transactions = new ArrayList<>();
-        transactions.add(new AgentTransactions(agent1, Arrays.asList(new Transaction[]{trx1,trx2})));
-        searchResponse.setAgentTransactions(transactions);
-        Mockito.when(service.search(searchRequest)).thenReturn(searchResponse);
+        searchRequest.setAgent(new AgentToSearch("john", "doe","john.doe@gmail.com"));
+        TransactionSearchResponse response = new TransactionSearchResponse();
+        List<TransactionResponse> transactionList = new ArrayList<>();
+        transactionList.add(new TransactionResponse(1, "john doe", "TR123", "APPROVED", "USB Disc", 100D));
+        transactionList.add(new TransactionResponse(2, "john doe", "TR124", "UNAPPROVED", "Flash Disc", 200D));
+        response.setTransactions(transactionList);
+        Mockito.when(service.search(searchRequest)).thenReturn(response);
 
+        TransactionSearchResponse searchResponse2 = new TransactionSearchResponse();
+        List<TransactionResponse> searchTransactionList2 = new ArrayList<>();
+        searchTransactionList2.add(new TransactionResponse(1, "john doe", "TR123", "APPROVED", "USB Disc", 100D));
+        searchTransactionList2.add(new TransactionResponse(2, "john doe", "TR124", "UNAPPROVED", "Flash Disc", 200D));
+        searchTransactionList2.add(new TransactionResponse(3, "mary doe", "TR125", "APPROVED", "Hard Disc", 300D));
+        searchTransactionList2.add(new TransactionResponse(4, "mary doe", "TR126", "UNAPPROVED", "Mac Book Pro", 400D));
+        searchResponse2.setTransactions(searchTransactionList2);
         var searchRequest2 = new TransactionSearchRequest();
-        Mockito.when(service.search(searchRequest2)).thenReturn(searchResponse);
+        Mockito.when(service.search(searchRequest2)).thenReturn(searchResponse2);
 
     }
 

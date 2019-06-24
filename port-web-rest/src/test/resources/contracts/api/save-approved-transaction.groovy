@@ -4,18 +4,18 @@ import org.springframework.cloud.contract.spec.Contract
 
 Contract.make {
     description("""
-Save transaction and sign as approved
+				Save transaction and sign as approved
 
-```
-given:
-	transaction
-when:
-    saved 
-then:
-	we'll return transaction id and whether approved or not
-```
+				```
+				given:
+					transaction
+				when:
+				    saved 
+				then:
+					we'll return transaction id and whether approved or not
+				```
 
-""")
+				""")
 
     request {
         method POST()
@@ -24,15 +24,15 @@ then:
             contentType applicationJson()
         }
         body("""
-			{
-				"firstname": "john",
-				"lastname": "doe",
-				"email": "john.doe@gmail.com",
-				"productName": "USB Disc",
-				"price": 20.0,
-				"transactionCode": "TR023"
-			}
-		"""
+							{
+								"firstname": "john",
+								"lastname": "doe",
+								"email": "john.doe@gmail.com",
+								"productName": "USB Disc",
+								"price": 20.0,
+								"transactionCode": "TR023"
+							}
+						"""
         )
     }
 
@@ -42,11 +42,11 @@ then:
             contentType applicationJson()
         }
         body("""
-			{
-				"id": 1,
-				"state": "APPROVED",
-			}
-		"""
+							{
+								"id": 1,
+								"state": "APPROVED",
+							}
+						"""
         )
     }
 }

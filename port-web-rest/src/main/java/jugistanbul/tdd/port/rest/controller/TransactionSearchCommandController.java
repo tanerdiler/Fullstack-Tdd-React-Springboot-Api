@@ -14,7 +14,7 @@ public class TransactionSearchCommandController {
     private final TransactionService service;
 
     @GetMapping
-    public TransactionSearchResponse save(@RequestBody @Valid TransactionSearchRequest request) {
+    public TransactionSearchResponse search(@RequestBody @Valid TransactionSearchRequest request) {
         return service.search(request);
     }
 }

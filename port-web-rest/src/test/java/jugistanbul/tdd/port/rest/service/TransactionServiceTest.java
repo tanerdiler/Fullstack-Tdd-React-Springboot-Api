@@ -14,6 +14,7 @@ import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +64,7 @@ public class TransactionServiceTest {
         when(searchCommand.exec(input)).thenReturn(output);
 
         TransactionSearchRequest request = new TransactionSearchRequest(new AgentToSearch("John", "Doe", "john.doe@gmail.com"));
-        TransactionSearchResponse response = new TransactionSearchResponse(List.of(new AgentTransactions(agent, List.of(trx))));
-        assertEquals(response, service.search(request));
+        TransactionSearchResponse response = new TransactionSearchResponse(Arrays.asList(new TransactionResponse[]{new TransactionResponse(trx.getId(), trx.getAgent().getFullname(), trx.getCode(), trx.getState().name(), trx.getProductName(), trx.getPrice().getValue())}));
+        assertEquals(response.getTransactions(), service.search(request).getTransactions());
     }
 }

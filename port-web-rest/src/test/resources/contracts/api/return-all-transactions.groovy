@@ -1,21 +1,20 @@
 package contracts.api
 
 import org.springframework.cloud.contract.spec.Contract
-
 Contract.make {
     description("""
-Return all transactions
+				Return all transactions
 
-```
-given:
-	search criteria
-when:
-    search 
-then:
-	we'll return all transactions ever saved
-```
+				```
+				given:
+					search criteria
+				when:
+				    search 
+				then:
+					we'll return all transactions ever saved
+				```
 
-""")
+				""")
 
     request {
         method GET()
@@ -24,10 +23,10 @@ then:
             contentType applicationJson()
         }
         body("""
-			{
-				"agent": null
-			}
-		"""
+							{
+								"agent": null
+							}
+						"""
         )
     }
 
@@ -37,13 +36,15 @@ then:
             contentType applicationJson()
         }
         body("""
-                {
-                    "transactions":[
-                        {"id":1,"agent":{"email":"john_doe@gmail.com","fullname":"john doe"},"code":"TR123","state":"APPROVED","productName":"USB Disc","price":{"value":100.0}},
-                        {"id":2,"agent":{"email":"john_doe@gmail.com","fullname":"john doe"},"code":"TR124","state":"UNAPPROVED","productName":"FLash Disc","price":{"value":200.0}}
-                    ]
-                }
-		"""
+				                {
+				                    "transactions":[
+				                        {"id":1,"agent":"john doe","code":"TR123","state":"APPROVED","productName":"USB Disc","price":100.0},
+				                        {"id":2,"agent":"john doe","code":"TR124","state":"UNAPPROVED","productName":"Flash Disc","price":200.0},
+				                        {"id":3,"agent":"mary doe","code":"TR125","state":"APPROVED","productName":"Hard Disc","price":300.0},
+				                        {"id":4,"agent":"mary doe","code":"TR126","state":"UNAPPROVED","productName":"Mac Book Pro","price":400.0}
+				                    ]
+				                }
+						"""
         )
     }
 }

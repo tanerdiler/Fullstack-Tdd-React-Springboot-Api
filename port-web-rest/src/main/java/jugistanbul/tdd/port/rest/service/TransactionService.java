@@ -19,15 +19,12 @@ public class TransactionService {
 
     public TransactionSaveResponse save(TransactionSaveRequest request) {
         var input = requestToSaveInput(request);
-        System.out.println("actual:"+input.toString());
         var output = saveCommand.exec(input);
         return outputToSaveResponse(output);
     }
 
     public TransactionSaveResponse save(TransactionSaveRequest request, TransactionSaveInput expected) {
         var input = requestToSaveInput(request);
-        System.out.println("actual:"+input.toString());
-        System.out.println(expected.equals(input));
         var output = saveCommand.exec(input);
         return outputToSaveResponse(output);
     }
@@ -39,7 +36,7 @@ public class TransactionService {
     }
 
     private TransactionSearchResponse outputToSearchResponse(TransactionSearchOutput output) {
-        var transactions = output.getTransactions().entrySet().stream().map(e->new AgentTransactions(e.getKey(), e.getValue())).collect(Collectors.toList());
+        var transactions = output.getTransactions().entrySet().stream().flatMap(e->e.getValue().stream()).map(i->new TransactionResponse(i.getId(), i.getAgent().getFullname(), i.getCode(), i.getState().name(), i.getProductName(), i.getPrice().getValue())).collect(Collectors.toList());
         return new TransactionSearchResponse(transactions);
     }
 
