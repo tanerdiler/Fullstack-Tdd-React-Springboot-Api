@@ -1,105 +1,36 @@
 package jugistanbul.tdd.transactions;
 
-import static jugistanbul.tdd.transactions.TransactionState.APPROVED;
-import static jugistanbul.tdd.transactions.TransactionState.UNAPPROVED;
-import static jugistanbul.tdd.transactions.TransactionState.WAITING_APPROVE;
-
 public class Transaction {
 
-    private Integer id;
+    private PurchasingAgent agent;
 
-    private final PurchasingAgent agent;
+    private Product product;
 
-    private final Product product;
+    private boolean approved;
 
-    private final String code;
-
-    private TransactionState state = WAITING_APPROVE;
-
-    public Transaction(PurchasingAgent agent, Product product, String trxCode) {
-
+    public Transaction(PurchasingAgent agent, Product product) {
         this.agent = agent;
+
         this.product = product;
-        this.code = trxCode;
     }
 
-    public Integer getId() {
-        return id;
+    public double getPrice() {
+        return product.getPrice();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public boolean isApproved() {
+        return approved;
     }
 
-    public String getCode() {
-        return code;
+    public void beApproved() {
+        this.approved = true;
     }
 
-    public Money getPrice() {
-        return this.product.getPrice();
-    }
-
-    public String getProductName() {
-        return this.product.getName();
+    public void beDenied() {
+        this.approved = false;
     }
 
     public PurchasingAgent getAgent() {
-        return this.agent;
-    }
-
-    public static Builder aNew() {
-        return new Builder();
-    }
-
-    public TransactionState getState() {
-        return state;
-    }
-
-    public void approve() throws IllegalOperationException {
-        if (this.state == UNAPPROVED) {
-            throw new IllegalOperationException("Already unapproved transaction can't be approved!");
-        }
-        this.state = APPROVED;
-    }
-
-    public void unapprove() throws IllegalOperationException {
-        if (this.state == APPROVED) {
-            throw new IllegalOperationException("Already approved transaction can't be unapproved!");
-        }
-        this.state = UNAPPROVED;
-    }
-
-    public static class Builder {
-
-        private Product product;
-
-        private String trxCode;
-
-        private PurchasingAgent agent;
-
-        public Builder product(Product product) {
-            this.product = product;
-            return this;
-        }
-
-        public Builder withCode(String trxCode) {
-            this.trxCode = trxCode;
-            return this;
-        }
-
-        public Builder agent(PurchasingAgent purchasingAgent) {
-            this.agent = purchasingAgent;
-            return this;
-        }
-
-        public Transaction get() {
-            if (trxCode == null) {
-                throw new PropertyRequiredException("Transaction", "code");
-            } else
-            if (product == null) {
-                throw new PropertyRequiredException("Transaction", "product");
-            }
-            return new Transaction(agent, product, trxCode);
-        }
+        return agent;
     }
 }

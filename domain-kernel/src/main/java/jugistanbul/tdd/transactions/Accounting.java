@@ -1,58 +1,27 @@
 package jugistanbul.tdd.transactions;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
-import static jugistanbul.tdd.transactions.TransactionState.APPROVED;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Accounting {
 
-    private Map<PurchasingAgent, List<Transaction>> agentTransactions = new HashMap<>();
+    private double limit;
 
-    private final AtomicInteger idGenerator = new AtomicInteger(0);
+    private List<Transaction> transactions = new ArrayList<>();
 
-    private Money limit;
+    public Accounting(double limit) {
 
-    public Accounting(Money limit) {
         this.limit = limit;
     }
 
-    public boolean save(Transaction trx) {
-        var agent = trx.getAgent();
-        var totalPriceOfApprovedTransactions = calcTotalPriceOfAgentTransactions(agent);
-
-        if (totalPriceOfApprovedTransactions.plus(trx.getPrice()).isGreaterThan(limit)) {
-            trx.unapprove();
+    public boolean save(Transaction transaction) {
+        double total = transactions.stream().filter(t->t.isApproved() && t.getAgent().equals(transaction.getAgent())).mapToDouble(t->t.getPrice()).sum();
+        if (total+transaction.getPrice()<=limit) {
+            transaction.beApproved();
         } else {
-            trx.approve();
+            transaction.beDenied();
         }
-
-        var transactions = agentTransactions.getOrDefault(trx.getAgent(), new ArrayList<>());
-        transactions.add(trx);
-
-        // TODO : setId brakes Immutable
-        trx.setId(idGenerator.addAndGet(1));
-
-        agentTransactions.putIfAbsent(agent, transactions);
-
-        return trx.getState() == APPROVED;
-    }
-
-    public Money calcTotalPriceOfAgentTransactions(PurchasingAgent agent) {
-        var transactions = agentTransactions.getOrDefault(agent, new ArrayList<>());
-        var totalPrice = transactions.stream().filter(trx->APPROVED == trx.getState()).map(trx->trx.getPrice()).reduce(Money.of(0d), (m1, m2)->m1.plus(m2));
-        return totalPrice;
-    }
-
-    public Map<PurchasingAgent, List<Transaction>> getTransactions() {
-        return Collections.unmodifiableMap(agentTransactions);
-    }
-
-    public  Map<PurchasingAgent, List<Transaction>> getTransactionsOf(PurchasingAgent agent) {
-        var result = new HashMap<PurchasingAgent, List<Transaction>>();
-        var transactions = agentTransactions.getOrDefault(agent, new ArrayList<>());
-        result.put(agent, transactions);
-        return result;
+        transactions.add(transaction);
+        return transaction.isApproved();
     }
 }
