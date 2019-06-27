@@ -12,6 +12,8 @@
     <modules>
         <module>domain-kernel</module>
         <module>application-layer</module>
+        <module>port-web-rest</module>
+	<module>demo-stub-runner</module>
     </modules>
 
     <properties>
