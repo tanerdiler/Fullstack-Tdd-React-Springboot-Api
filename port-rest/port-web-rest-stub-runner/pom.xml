@@ -8,11 +8,11 @@
 		<version>2.1.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>demo-stub-runner</artifactId>
+	<groupId>jugistanbul.tdd</groupId>
+	<artifactId>transactions-port-rest-stubrunner</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo-stub-runner</name>
-	<description>Demo project for Spring Boot</description>
+	<name>transactions-port-rest-stubrunner</name>
+	<description>Stub Runner for Rest Port</description>
 
 	<properties>
 		<java.version>12</java.version>

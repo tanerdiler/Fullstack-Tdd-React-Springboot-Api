@@ -1,4 +1,4 @@
-package com.example.demostubrunner;
+package jugistanbul.tdd.port.stubrunner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
