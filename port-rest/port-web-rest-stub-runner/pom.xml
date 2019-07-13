@@ -8,7 +8,7 @@
 		<version>2.1.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>jugistanbul.tdd</groupId>
+	<groupId>transactions</groupId>
 	<artifactId>transactions-port-rest-stubrunner</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>transactions-port-rest-stubrunner</name>
@@ -31,7 +31,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>jugistanbul.tdd</groupId>
+			<groupId>transactions</groupId>
 			<artifactId>transactions-port-rest</artifactId>
 			<classifier>stubs</classifier>
 			<version>0.0.1-SNAPSHOT</version>
