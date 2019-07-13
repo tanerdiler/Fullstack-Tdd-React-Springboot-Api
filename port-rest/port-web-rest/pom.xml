@@ -8,7 +8,7 @@
 		<version>2.2.0.M3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>jugistanbul.tdd</groupId>
+	<groupId>transactions</groupId>
 	<artifactId>transactions-port-rest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>transactions-port-rest</name>
@@ -120,7 +120,7 @@
 				<version>${spring-cloud-contract.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-					<packageWithBaseClasses>jugistanbul.tdd.port.rest</packageWithBaseClasses>
+					<packageWithBaseClasses>transactions.port.rest</packageWithBaseClasses>
 					<testMode>EXPLICIT</testMode>
 					<testFramework>JUNIT5</testFramework>
 				</configuration>

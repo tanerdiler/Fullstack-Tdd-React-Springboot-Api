@@ -1,4 +1,4 @@
-package jugistanbul.tdd.port.rest;
+package transactions.port.rest;
 
 import jugistanbul.tdd.applicationlayer.TransactionSaveCommand;
 import jugistanbul.tdd.applicationlayer.TransactionSearchCommand;
