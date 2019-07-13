@@ -17,64 +17,63 @@ CONTRACT DRIVEN DESIGN
 ##### 1.1 Şirketin CFO'su olarak, sisteme girilen satın alım işleminin limite bakılarak sistem tarafından onaylanmasını istiyorum
 /src/test/resources/contracts/api/save-approved-transactions.groovy
 ```		
-  package contracts.api
-  
-  import org.springframework.cloud.contract.spec.Contract
-  
-  Contract.make {
-      description("""
-                  Save transaction and sign as approved
-                
-                  given:
-                    transaction
-                  when:
-                      saved 
-                  then:
-                    we'll return transaction id and whether approved or not
-                
-                  """)
+package contracts.api
 
-      request {
-          method POST()
-          url "/transactions"
-          headers {
-              contentType applicationJson()
-          }
-          body("""
-        {
-          "firstname": "john",
-          "lastname": "doe",
-          "email": "john.doe@gmail.com",
-          "productName": "USB Disc",
-          "price": 20.0,
-          "transactionCode": "TR023"
-        }
-      """
-          )
-      }
+import org.springframework.cloud.contract.spec.Contract
 
-      response {
-          status OK()
-          headers {
-              contentType applicationJson()
-          }
-          body("""
-        {
-          "id": 1,
-          "state": "APPROVED",
+Contract.make {
+    description("""
+                Save transaction and sign as approved
+              
+                given:
+                  transaction
+                when:
+                    saved 
+                then:
+                  we'll return transaction id and whether approved or not
+              
+                """)
+
+    request {
+        method POST()
+        url "/transactions"
+        headers {
+            contentType applicationJson()
         }
-      """
-          )
+        body("""
+      {
+        "firstname": "john",
+        "lastname": "doe",
+        "email": "john.doe@gmail.com",
+        "productName": "USB Disc",
+        "price": 20.0,
+        "transactionCode": "TR023"
       }
-  }
+    """
+        )
+    }
+
+    response {
+        status OK()
+        headers {
+            contentType applicationJson()
+        }
+        body("""
+      {
+        "id": 1,
+        "state": "APPROVED",
+      }
+    """
+        )
+    }
+}
 ```
 -- TransactionSaveController.java
 				
 ```
-package jugistanbul.tdd.port.rest.controller;
+package transactions.port.rest.controller;
 
-import jugistanbul.tdd.port.rest.service.TransactionService;
-import jugistanbul.tdd.transactions.TransactionState;
+import transactions.port.rest.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -102,7 +101,7 @@ public class TransactionSaveController {
 -- TransactionSaveRequest.java
 
 ```
-package jugistanbul.tdd.port.rest.controller;
+package transactions.port.rest.controller;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -134,7 +133,7 @@ public class TransactionSaveRequest {
 
 -- TransactionSaveResponse.java
 ```
-package jugistanbul.tdd.port.rest.controller;
+package transactions.port.rest.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -158,11 +157,9 @@ Mockito.when(service.save(request1)).thenReturn(response1);
 
 -- TransactionService.java
 ```
-package jugistanbul.tdd.port.rest.service;
+package transactions.port.rest.service;
 
-import jugistanbul.tdd.applicationlayer.*;
-import jugistanbul.tdd.port.rest.controller.*;
-import jugistanbul.tdd.transactions.PurchasingAgent;
+import transactions.port.rest.controller.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -217,7 +214,7 @@ public class TransactionService {
       response {
           status OK()
           headers {
-              contentType applcationJson()
+              contentType applicationJson()
           }
           body("""
         {
@@ -294,6 +291,17 @@ Mockito.when(service.save(request2)).thenReturn(response2);
 
 -- TransactionSearchController.java
 ```
+package transactions.port.rest.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import transactions.port.rest.service.TransactionService;
+
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/transactions")
 @RequiredArgsConstructor
@@ -311,7 +319,7 @@ public class TransactionSearchController {
 -- TransactionSearchRequest.java
 
 ```
-package jugistanbul.tdd.port.rest.controller;
+package transactions.port.rest.controller;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -347,7 +355,7 @@ public class TransactionSearchRequest {
 -- AgentToSearch.java
 
 ```
-package jugistanbul.tdd.port.rest.controller;
+package transactions.port.rest.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -390,7 +398,7 @@ public class AgentToSearch {
 
 -- TransactionSearchResponse.java
 ```
-package jugistanbul.tdd.port.rest.controller;
+package transactions.port.rest.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -410,7 +418,7 @@ public class TransactionSearchResponse {
 
 -- TransactionResponse.java
 ```
-package jugistanbul.tdd.port.rest.controller;
+package transactions.port.rest.controller;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -522,11 +530,13 @@ List<TransactionResponse> transactionList = new ArrayList<>();
 transactionList.add(new TransactionResponse(1, "john doe", "TR123", "APPROVED", "USB Disc", 100D));
 transactionList.add(new TransactionResponse(2, "john doe", "TR124", "UNAPPROVED", "Flash Disc", 200D));
 response.setTransactions(transactionList);
-Mockito.when(service.search(searchRequest)).thenReturn(response);`
+Mockito.when(service.search(searchRequest)).thenReturn(response);
 ```
 
 #### 2. Backend developer olarak, frontend ekibine dummy verilerle çalıştırılabilir bir api uygulaması vermeliyim
 - port-web-rest projesi altında 'mvn clean install' komutunu çalıştırarak oluşan artifact'i local repo'ya atalım
 - port-web-rest-stub-runner projesi altında 'mvn clean package' komutunu çalıştıralım ve artifact'in oluşmasını sağlayalım
 - oluşan artifact'i aşağıdaki komut ile çalıştıralım
-```java -jar target/transactions-port-rest-stubrunner-0.0.1-SNAPSHOT.jar --server.port=8070 --stubrunner.ids=jugistanbul.tdd:transactions-port-rest:0.0.1-SNAPHOT:stubs:8000```
+```
+java -jar target/transactions-port-rest-stubrunner-0.0.1-SNAPSHOT.jar --server.port=8070 --stubrunner.ids=transactions:transactions-port-rest:0.0.1-SNAPSHOT:stubs:8000
+```
