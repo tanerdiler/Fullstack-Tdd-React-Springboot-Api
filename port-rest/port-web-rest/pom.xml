@@ -15,7 +15,7 @@
 	<description>Rest Service Port for Transaction Application</description>
 
 	<properties>
-		<java.version>12</java.version>
+		<java.version>1.9</java.version>
 		<spring-cloud.version>Hoxton.BUILD-SNAPSHOT</spring-cloud.version>
 		<spring-cloud-contract.version>2.1.1.RELEASE</spring-cloud-contract.version>
 		<junit.version>5.4.2</junit.version>
@@ -23,18 +23,6 @@
 
 	<dependencies>
 		<!-- Application Modules -->
-		<dependency>
-			<groupId>jugistanbul.tdd</groupId>
-			<artifactId>domain-kernel</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>jugistanbul.tdd</groupId>
-			<artifactId>application-layer</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
 		<!-- Spring Modules -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -104,8 +92,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>12</source>
-					<target>12</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 				</configuration>
 			</plugin>
 

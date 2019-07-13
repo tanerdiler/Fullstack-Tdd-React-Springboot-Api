@@ -537,4 +537,6 @@ Mockito.when(service.search(searchRequest)).thenReturn(response);
 - port-web-rest projesi altında 'mvn clean install' komutunu çalıştırarak oluşan artifact'i local repo'ya atalım
 - port-web-rest-stub-runner projesi altında 'mvn clean package' komutunu çalıştıralım ve artifact'in oluşmasını sağlayalım
 - oluşan artifact'i aşağıdaki komut ile çalıştıralım
-```java -jar target/transactions-port-rest-stubrunner-0.0.1-SNAPSHOT.jar --server.port=8070 --stubrunner.ids=transactions:transactions-port-rest:0.0.1-SNAPHOT:stubs:8000```
+```
+java -jar target/transactions-port-rest-stubrunner-0.0.1-SNAPSHOT.jar --server.port=8070 --stubrunner.ids=transactions:transactions-port-rest:0.0.1-SNAPSHOT:stubs:8000
+```
