@@ -1,11 +1,6 @@
-package jugistanbul.tdd.port.rest;
+package transactions.port.rest;
 
 import io.restassured.RestAssured;
-import jugistanbul.tdd.applicationlayer.TransactionSaveCommand;
-import jugistanbul.tdd.applicationlayer.TransactionSaveInput;
-import jugistanbul.tdd.port.rest.controller.*;
-import jugistanbul.tdd.port.rest.service.TransactionService;
-import jugistanbul.tdd.transactions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
