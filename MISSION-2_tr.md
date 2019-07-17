@@ -146,5 +146,188 @@ mock.onPost('/transactions', {
         { id: 1, state: 'unapproved' }
 );
 ```
+5. Satın Alım Tablosu verilen işlemleri listelemeli
+```
+-- trx-list.test.js
 
+ it('lists transactions', async () => {
+    const trxList = [
+        {"id":1,"agent":"cindy doe","code":"TR123","state":"APPROVED","productName":"USB Disc","price":100.0},
+        {"id":2,"agent":"john doe","code":"TR124","state":"UNAPPROVED","productName":"Flash Disc","price":200.0},
+        {"id":3,"agent":"mary doe","code":"TR125","state":"APPROVED","productName":"Mac Book Pro","price":300.0},
+        {"id":4,"agent":"mary doe","code":"TR126","state":"UNAPPROVED","productName":"Mac Mini","price":400.0}
+    ];
+    const { getByTestId, getByText } = render(<TransactionList list={trxList}/>);
+    const trx1Row = await waitForElement(()=>getByTestId('transaction-1-row'));
+    expect(getByTestId('transaction-1-agent').textContent).toEqual('cindy doe');
+    expect(getByTestId('transaction-1-code').textContent).toEqual('TR123');
+    expect(getByTestId('transaction-1-productname').textContent).toEqual('USB Disc');
+    expect(getByTestId('transaction-1-price').textContent).toEqual('100');
+    expect(getByTestId('transaction-1-state').textContent).toEqual('APPROVED');
+
+    const trx2Row = await waitForElement(()=>getByTestId('transaction-2-row'));
+    expect(getByTestId('transaction-2-agent').textContent).toEqual('john doe');
+    expect(getByTestId('transaction-2-code').textContent).toEqual('TR124');
+    expect(getByTestId('transaction-2-productname').textContent).toEqual('Flash Disc');
+    expect(getByTestId('transaction-2-price').textContent).toEqual('200');
+    expect(getByTestId('transaction-2-state').textContent).toEqual('UNAPPROVED');
+
+    const trx3Row = await waitForElement(()=>getByTestId('transaction-3-row'));
+    expect(getByTestId('transaction-3-agent').textContent).toEqual('mary doe');
+    expect(getByTestId('transaction-3-code').textContent).toEqual('TR125');
+    expect(getByTestId('transaction-3-productname').textContent).toEqual('Mac Book Pro');
+    expect(getByTestId('transaction-3-price').textContent).toEqual('300');
+    expect(getByTestId('transaction-3-state').textContent).toEqual('APPROVED');
+
+    const trx4Row = await waitForElement(()=>getByTestId('transaction-4-row'));
+    expect(getByTestId('transaction-4-agent').textContent).toEqual('mary doe');
+    expect(getByTestId('transaction-4-code').textContent).toEqual('TR126');
+    expect(getByTestId('transaction-4-productname').textContent).toEqual('Mac Mini');
+    expect(getByTestId('transaction-4-price').textContent).toEqual('400');
+    expect(getByTestId('transaction-4-state').textContent).toEqual('UNAPPROVED');
+})
+```
+6. Listeleme ekranı açıldığında default olarak kayıtlı tüm satın alım işlemleri listelenmeli
+-- trx-list.test.js
+   * Mock axios post call
+```
+const mock = new MockAdapter(axios);
+mock.onGet(`/transactions`).reply(function(config) {
+    return [200,{
+        "transactions":[
+            {"id":1,"agent":"john doe","code":"TR123","state":"APPROVED","productName":"USB Disc","price":100.0},
+            {"id":2,"agent":"john doe","code":"TR124","state":"UNAPPROVED","productName":"Flash Disc","price":200.0},
+            {"id":3,"agent":"mary doe","code":"TR125","state":"APPROVED","productName":"Mac Book Pro","price":300.0},
+            {"id":4,"agent":"mary doe","code":"TR126","state":"UNAPPROVED","productName":"Mac Mini","price":400.0}
+        ]
+    }];
+});
+```
+7. Listenin props yerine state'den alınmasından dolayı birinci test patlayacaktır. Burada yapılması gereken doğru davranış list-table bileşeni oluşturmaktır ve birinci testi bu bileşinin testi haline getirmek olacaktır.
+-- trx-table.test.js
+```
+import React from 'react';
+import { render, fireEvent, waitForElement, cleanup } from '@testing-library/react';
+import TransactionTable from './trx-table';
+
+beforeEach(()=>{
+
+})
+
+
+afterEach(cleanup)
+
+it('lists transactions', async () => {
+    const trxList = [
+        {"id":1,"agent":"cindy doe"},"code":"TR123","state":"APPROVED","productName":"USB Disc","price":100.0},
+        {"id":2,"agent":"john doe"},"code":"TR124","state":"UNAPPROVED","productName":"Flash Disc","price":200.0},
+        {"id":3,"agent":"mary doe"},"code":"TR125","state":"APPROVED","productName":"Mac Book Pro","price":300.0},
+        {"id":4,"agent":"mary doe"},"code":"TR126","state":"UNAPPROVED","productName":"Mac Mini","price":400.0}
+    ];
+    const { getByTestId, getByText } = render(<TransactionTable list={trxList}/>);
+    const trx1Row = await waitForElement(()=>getByTestId('transaction-1-row'));
+    expect(getByTestId('transaction-1-agent').textContent).toEqual('cindy doe');
+    expect(getByTestId('transaction-1-code').textContent).toEqual('TR123');
+    expect(getByTestId('transaction-1-productname').textContent).toEqual('USB Disc');
+    expect(getByTestId('transaction-1-price').textContent).toEqual('100');
+    expect(getByTestId('transaction-1-state').textContent).toEqual('APPROVED');
+
+    const trx2Row = await waitForElement(()=>getByTestId('transaction-2-row'));
+    expect(getByTestId('transaction-2-agent').textContent).toEqual('john doe');
+    expect(getByTestId('transaction-2-code').textContent).toEqual('TR124');
+    expect(getByTestId('transaction-2-productname').textContent).toEqual('Flash Disc');
+    expect(getByTestId('transaction-2-price').textContent).toEqual('200');
+    expect(getByTestId('transaction-2-state').textContent).toEqual('UNAPPROVED');
+
+    const trx3Row = await waitForElement(()=>getByTestId('transaction-3-row'));
+    expect(getByTestId('transaction-3-agent').textContent).toEqual('mary doe');
+    expect(getByTestId('transaction-3-code').textContent).toEqual('TR125');
+    expect(getByTestId('transaction-3-productname').textContent).toEqual('Mac Book Pro');
+    expect(getByTestId('transaction-3-price').textContent).toEqual('300');
+    expect(getByTestId('transaction-3-state').textContent).toEqual('APPROVED');
+
+    const trx4Row = await waitForElement(()=>getByTestId('transaction-4-row'));
+    expect(getByTestId('transaction-4-agent').textContent).toEqual('mary doe');
+    expect(getByTestId('transaction-4-code').textContent).toEqual('TR126');
+    expect(getByTestId('transaction-4-productname').textContent).toEqual('Mac Mini');
+    expect(getByTestId('transaction-4-price').textContent).toEqual('400');
+    expect(getByTestId('transaction-4-state').textContent).toEqual('UNAPPROVED');
+})
+```
+--trx-list.test.js dosyasından ilk testi silelim
+--trx-list.jsx dosyasında aşağıdaki değişiklikleri yapalım
+```
+<div data-testid="transaction-list">
+    <TransactionTable list={list}/>
+</div>
+```
+
+8. Satın Alma Sorumlusu'nun adı, soyadı ve email adresi girilerek satın alım işlemleri filtrelenmeli
+   
+- trx-list.test.js dosyasında beforeEach method içeriğin, aşağıdaki  filtreleme 
+```
+beforeEach(()=>{
+
+  const mock = new MockAdapter(axios);
+  mock.onGet(`/transactions`).reply(function(config) {
+      console.log("config", config);
+
+      // AxiosMock, URL eslestirmesi yaparken get parametrelerine bakmiyor
+      if (config.params && config.params.firstname === 'mary') { // or check for deep equality with config.params
+          return [200,
+              {
+              "transactions":[
+                  {"id":3,"agent":"mary doe","code":"TR125","state":"APPROVED","productName":"Mac Book Pro","price":300.0},
+                  {"id":4,"agent":"mary doe","code":"TR126","state":"UNAPPROVED","productName":"Mac Mini","price":400.0}
+              ]
+          }];
+      } else {
+          return [200,{
+              "transactions":[
+                  {"id":1,"agent":"john doe"},"code":"TR123","state":"APPROVED","productName":"USB Disc","price":100.0},
+                  {"id":2,"agent":"john doe"},"code":"TR124","state":"UNAPPROVED","productName":"Flash Disc","price":200.0},
+                  {"id":3,"agent":"mary doe"},"code":"TR125","state":"APPROVED","productName":"Mac Book Pro","price":300.0},
+                  {"id":4,"agent":"mary doe"},"code":"TR126","state":"UNAPPROVED","productName":"Mac Mini","price":400.0}
+              ]
+          }];
+      }
+  });
+})
+```
+   		
+- trx-list.test.js 
+```   
+it('filters by purchasing agent', async () => {
+    
+    const { getByTestId, queryByTestId } = render(<TransactionList/>);
+
+    const firstname = getByTestId('filter-firstname-input');
+    const lastname = getByTestId('filter-lastname-input');
+    const email = getByTestId('filter-email-input');
+    const searchButton = getByTestId('search-button');
+
+    fireEvent.change(firstname, { target: { value: 'mary' } });
+    fireEvent.change(lastname, { target: { value: 'doe' } });
+    fireEvent.change(email, { target: { value: 'mary_doe@gmail.com' } });
+    fireEvent.click(searchButton);
+
+    const trx3Row = await waitForElement(()=>getByTestId('transaction-3-row'));
+    expect(getByTestId('transaction-3-agent').textContent).toEqual('mary doe');
+    expect(getByTestId('transaction-3-code').textContent).toEqual('TR125');
+    expect(getByTestId('transaction-3-productname').textContent).toEqual('Mac Book Pro');
+    expect(getByTestId('transaction-3-price').textContent).toEqual('300');
+    expect(getByTestId('transaction-3-state').textContent).toEqual('APPROVED');
+
+    const trx4Row = await waitForElement(()=>getByTestId('transaction-4-row'));
+    expect(getByTestId('transaction-4-agent').textContent).toEqual('mary doe');
+    expect(getByTestId('transaction-4-code').textContent).toEqual('TR126');
+    expect(getByTestId('transaction-4-productname').textContent).toEqual('Mac Mini');
+    expect(getByTestId('transaction-4-price').textContent).toEqual('400');
+    expect(getByTestId('transaction-4-state').textContent).toEqual('UNAPPROVED');
+
+    expect(queryByTestId('transaction-1-row')).toBeNull();
+    expect(queryByTestId('transaction-2-row')).toBeNull();
+
+})
+```
 
