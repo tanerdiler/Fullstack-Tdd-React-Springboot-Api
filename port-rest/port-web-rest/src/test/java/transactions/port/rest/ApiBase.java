@@ -37,12 +37,12 @@ public class ApiBase {
     public void setup() {
         RestAssured.baseURI = "http://localhost:" + this.port;
 
-        var request1 = new TransactionSaveRequest("john","doe","john.doe@gmail.com","USB Disc",20.0,"TR023");
-        var response1 = new TransactionSaveResponse(1, "APPROVED");
+        TransactionSaveRequest request1 = new TransactionSaveRequest("john","doe","john.doe@gmail.com","USB Disc",20.0,"TR023");
+        TransactionSaveResponse response1 = new TransactionSaveResponse(1, "APPROVED");
         Mockito.when(service.save(request1)).thenReturn(response1);
 
-        var request2 = new TransactionSaveRequest("mary","doe","mary.doe@gmail.com","USB Disc",100.0,"TR025");
-        var response2 = new TransactionSaveResponse(1, "UNAPPROVED");
+        TransactionSaveRequest request2 = new TransactionSaveRequest("mary","doe","mary.doe@gmail.com","USB Disc",100.0,"TR025");
+        TransactionSaveResponse response2 = new TransactionSaveResponse(1, "UNAPPROVED");
         Mockito.when(service.save(request2)).thenReturn(response2);
 
         TransactionSearchResponse searchResponse2 = new TransactionSearchResponse();
@@ -52,10 +52,10 @@ public class ApiBase {
         searchTransactionList2.add(new TransactionResponse(3, "mary doe", "TR125", "APPROVED", "Hard Disc", 300D));
         searchTransactionList2.add(new TransactionResponse(4, "mary doe", "TR126", "UNAPPROVED", "Mac Book Pro", 400D));
         searchResponse2.setTransactions(searchTransactionList2);
-        var searchRequest2 = new TransactionSearchRequest();
+        TransactionSearchRequest searchRequest2 = new TransactionSearchRequest();
         Mockito.when(service.search(searchRequest2)).thenReturn(searchResponse2);
 
-        var searchRequest = new TransactionSearchRequest();
+        TransactionSearchRequest searchRequest = new TransactionSearchRequest();
         searchRequest.setAgent(new AgentToSearch("john", "doe","john.doe@gmail.com"));
         TransactionSearchResponse response = new TransactionSearchResponse();
         List<TransactionResponse> transactionList = new ArrayList<>();
